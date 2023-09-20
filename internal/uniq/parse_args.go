@@ -34,23 +34,23 @@ func parseFilesArgs(argsFiles []string) (io.ReadCloser, io.WriteCloser, error) {
 	return readCloser, writeCloser, nil
 }
 
-func ParseArgs() (*Command, error) {
+func ParseArgs(args []string) (*Command, error) {
 	flagSet := flag.NewFlagSet(helpMessage, flag.ExitOnError)
-	args := ArgsCommand{} //nolint:exhaustruct,exhaustivestruct
+	argsCommand := ArgsCommand{} //nolint:exhaustruct,exhaustivestruct
 
-	flagSet.BoolVar(&args.CFlag, "c", false, "calculate count duplicated lines")
-	flagSet.BoolVar(&args.DFlag, "d", false, "print only duplicated lines")
-	flagSet.BoolVar(&args.UFlag, "u", false, "print only unique lines")
-	flagSet.BoolVar(&args.IFlag, "i", false, "ignore differences in case when comparing")
+	flagSet.BoolVar(&argsCommand.CFlag, "c", false, "calculate count duplicated lines")
+	flagSet.BoolVar(&argsCommand.DFlag, "d", false, "print only duplicated lines")
+	flagSet.BoolVar(&argsCommand.UFlag, "u", false, "print only unique lines")
+	flagSet.BoolVar(&argsCommand.IFlag, "i", false, "ignore differences in case when comparing")
 
-	flagSet.UintVar(&args.FFlag, "f", 0, "not compare first `num` fields in every line")
-	flagSet.UintVar(&args.SFlag, "s", 0, "not compare first `chars` rune in every line")
+	flagSet.UintVar(&argsCommand.FFlag, "f", 0, "not compare first `num` fields in every line")
+	flagSet.UintVar(&argsCommand.SFlag, "s", 0, "not compare first `chars` rune in every line")
 
-	if err := flagSet.Parse(os.Args[1:]); err != nil {
+	if err := flagSet.Parse(args); err != nil {
 		return nil, fmt.Errorf("in ParseArgs(): %w", err)
 	}
 
-	countFirstFlags := calcCountTrueFlags(args.CFlag, args.DFlag, args.UFlag)
+	countFirstFlags := calcCountTrueFlags(argsCommand.CFlag, argsCommand.DFlag, argsCommand.UFlag)
 	if countFirstFlags > 1 {
 		return nil, fmt.Errorf("in ParseArgs(): you can`t use c, d, u flags together. %w", ErrHelp)
 	}
@@ -59,10 +59,10 @@ func ParseArgs() (*Command, error) {
 
 	var err error
 
-	args.ReadCloser, args.WriteCloser, err = parseFilesArgs(argsFiles)
+	argsCommand.ReadCloser, argsCommand.WriteCloser, err = parseFilesArgs(argsFiles)
 	if err != nil {
 		return nil, fmt.Errorf("in ParseArgs(): Error is: %w", err)
 	}
 
-	return NewCommand(&args), nil
+	return NewCommand(&argsCommand), nil
 }

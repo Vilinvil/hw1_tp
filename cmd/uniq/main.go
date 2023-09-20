@@ -3,12 +3,13 @@ package main
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"hw1_tp/internal/uniq"
 )
 
 func main() {
-	uniqCommand, err := uniq.ParseArgs()
+	uniqCommand, err := uniq.ParseArgs(os.Args[1:])
 	if err != nil {
 		log.Fatal(fmt.Errorf("error in main(): %w", err))
 	}
