@@ -12,7 +12,7 @@ import (
 type comparatorString func(first, second string) bool
 
 type Command struct {
-	args               *ArgsCommand
+	Args               *ArgsCommand
 	uniqPrev           bool
 	duplicationCounter int
 	prevLine           string
@@ -31,18 +31,18 @@ func NewCommand(args *ArgsCommand) *Command {
 	}
 
 	command.initComparator()
-	command.args = args
+	command.Args = args
 
 	return &command //nolint:exhaustivestruct,exhaustruct
 }
 
 func (c *Command) Close() error {
-	err := c.args.ReadCloser.Close()
+	err := c.Args.ReadCloser.Close()
 	if err != nil {
 		return fmt.Errorf("in Close(): Error is: %w", err)
 	}
 
-	err = c.args.WriteCloser.Close()
+	err = c.Args.WriteCloser.Close()
 	if err != nil {
 		return fmt.Errorf("in Close(): Error is: %w", err)
 	}
@@ -51,21 +51,21 @@ func (c *Command) Close() error {
 }
 
 func (c *Command) writeln(p []byte) (int, error) {
-	return c.args.WriteCloser.Write(append(p, []byte("\n")...)) //nolint:wrapcheck
+	return c.Args.WriteCloser.Write(append(p, []byte("\n")...)) //nolint:wrapcheck
 }
 
 func (c *Command) fieldsHandleLine(curLine string) string {
-	if c.args.FFlag != 0 {
-		curLine = TrimFirstFields(curLine, c.args.FFlag)
+	if c.Args.FFlag != 0 {
+		curLine = TrimFirstFields(curLine, c.Args.FFlag)
 	}
 
 	return curLine
 }
 
 func (c *Command) skipCharsHandleLine(curLine string) string {
-	if c.args.SFlag != 0 {
-		if uint(len(curLine)) >= c.args.SFlag {
-			curLine = curLine[c.args.SFlag:]
+	if c.Args.SFlag != 0 {
+		if uint(len(curLine)) >= c.Args.SFlag {
+			curLine = curLine[c.Args.SFlag:]
 		} else {
 			curLine = ""
 		}
@@ -75,7 +75,7 @@ func (c *Command) skipCharsHandleLine(curLine string) string {
 }
 
 func (c *Command) ignoreCaseHandleLine(curLine string) string {
-	if c.args.IFlag {
+	if c.Args.IFlag {
 		curLine = strings.ToLower(curLine)
 	}
 
@@ -170,11 +170,11 @@ func (c *Command) handleLastLine(handler func(string) error) error {
 
 func (c *Command) getEndHandler() func(string) error {
 	switch {
-	case c.args.CFlag:
+	case c.Args.CFlag:
 		return c.calcHandleLine
-	case c.args.UFlag:
+	case c.Args.UFlag:
 		return c.uniqHandleLine
-	case c.args.DFlag:
+	case c.Args.DFlag:
 		return c.duplicateHandleLine
 	default:
 		return c.defaultHandleLine
@@ -184,7 +184,7 @@ func (c *Command) getEndHandler() func(string) error {
 func (c *Command) Run() error {
 	endHandler := c.getEndHandler()
 
-	scanner := bufio.NewScanner(c.args.ReadCloser)
+	scanner := bufio.NewScanner(c.Args.ReadCloser)
 	if scanner.Scan() {
 		c.prevLine = scanner.Text()
 
