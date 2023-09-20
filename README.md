@@ -256,9 +256,9 @@ Thanks.
 
 ### Тестирование
 
-mkdir bin -p &&
+`mkdir bin -p &&
 go test -v -coverpkg=./internal/uniq/ -coverprofile=bin/cover.out ./test/uniq && 
-go tool cover -html=bin/cover.out -o=bin/cover.html
+go tool cover -html=bin/cover.out -o=bin/cover.html`
 
 
 ## Часть 2. Calc

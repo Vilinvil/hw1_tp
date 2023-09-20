@@ -229,7 +229,7 @@ People love go gym`,
 
 			received := writerBuf.String()
 			if testCase.expected != received {
-				t.Errorf("Not equal expected: %s \nAnd received: %s", testCase.expected, received)
+				t.Errorf("Not equal EXPECTED: %s \nAnd RECEIVED: %s", testCase.expected, received)
 			}
 		})
 	}

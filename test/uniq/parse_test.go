@@ -56,5 +56,52 @@ func TestParseArgsSuccessful(t *testing.T) {
 			}
 		})
 	}
+}
 
+func TestParseArgsErrors(t *testing.T) {
+	t.Parallel()
+
+	type TestCase struct {
+		name        string
+		input       string
+		expectedErr string
+	}
+
+	testCases := [...]TestCase{
+		{name: "test parse with unnecessary args of files ",
+			input:       "input.file output.file unnecessary.file",
+			expectedErr: "in ParseArgs(): Error is: in parseFilesArgs(): Too much arguments countArgs == 3. for help use argument -h or --help",
+		},
+		{name: "test parse not existing input file",
+			input:       "not_exist.file",
+			expectedErr: "in ParseArgs(): Error is: in parseFilesArgs(): Error is: open not_exist.file: no such file or directory",
+		},
+		{name: "test parse with uncorrected flags",
+			input:       "--uncorrected",
+			expectedErr: "in ParseArgs(): flag provided but not defined: -uncorrected",
+		},
+		{name: "test parse with CFlag and DFlag together ",
+			input:       "-c -d",
+			expectedErr: "in ParseArgs(): you can`t use c, d, u flags together. for help use argument -h or --help",
+		},
+		{name: "test parse with UFlag and DFlag together ",
+			input:       "-u -d",
+			expectedErr: "in ParseArgs(): you can`t use c, d, u flags together. for help use argument -h or --help",
+		},
+	}
+
+	for _, testCase := range testCases {
+		testCase := testCase
+
+		t.Run(testCase.name, func(t *testing.T) {
+			t.Parallel()
+
+			_, err := uniq.ParseArgs(strings.Fields(testCase.input))
+			if err == nil {
+				t.Errorf("uniq.ParseArgs() not RETURN ERR\nBut EXPECTED: %v", testCase.expectedErr)
+			} else if err.Error() != testCase.expectedErr {
+				t.Errorf("uniq.ParseArgs() RETURN ERR: %v\n But EXPECTED: %v", err.Error(), testCase.expectedErr)
+			}
+		})
+	}
 }

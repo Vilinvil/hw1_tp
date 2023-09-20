@@ -35,7 +35,7 @@ func parseFilesArgs(argsFiles []string) (io.ReadCloser, io.WriteCloser, error) {
 }
 
 func ParseArgs(args []string) (*Command, error) {
-	flagSet := flag.NewFlagSet(helpMessage, flag.ExitOnError)
+	flagSet := flag.NewFlagSet(helpMessage, flag.ContinueOnError)
 	argsCommand := ArgsCommand{} //nolint:exhaustruct,exhaustivestruct
 
 	flagSet.BoolVar(&argsCommand.CFlag, "c", false, "calculate count duplicated lines")
