@@ -205,8 +205,6 @@ People love go gym`,
 		},
 	}
 
-	var err error
-
 	for _, testCase := range testCases {
 		testCase := testCase
 
@@ -217,8 +215,14 @@ People love go gym`,
 			writerBuf := &nopCloseBuffer{*bytes.NewBufferString("")}
 			testCase.args.WriteCloser = writerBuf
 			uniqCommand := uniq.NewCommand(&testCase.args)
+			defer func(uc *uniq.Command) {
+				err := uc.Close()
+				if err != nil {
+					t.Errorf("in defer: Error is: %v", err)
+				}
+			}(uniqCommand)
 
-			err = uniqCommand.Run()
+			err := uniqCommand.Run()
 			if err != nil {
 				t.Fatalf("in uniqCommand.Run(): Error is: %v", err)
 			}
