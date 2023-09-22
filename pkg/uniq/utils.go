@@ -2,7 +2,7 @@ package uniq
 
 import "strings"
 
-func calcCountTrueFlags(flags ...bool) int {
+func CalcCountTrueFlags(flags ...bool) int {
 	countFlags := 0
 
 	for _, value := range flags {

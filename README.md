@@ -257,7 +257,7 @@ Thanks.
 ### Тестирование
 
 `mkdir bin -p &&
-go test -v -coverpkg=./internal/uniq/ -coverprofile=bin/cover.out ./test/uniq && 
+go test -v -coverpkg=./pkg/uniq/ -coverprofile=bin/cover.out ./test/uniq && 
 go tool cover -html=bin/cover.out -o=bin/cover.html`
 
 

@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"hw1_tp/internal/uniq"
+	"hw1_tp/pkg/uniq"
 )
 
 func main() {

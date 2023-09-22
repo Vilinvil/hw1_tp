@@ -6,7 +6,7 @@ import (
 	"strings"
 	"testing"
 
-	"hw1_tp/internal/uniq"
+	"hw1_tp/pkg/uniq"
 )
 
 func generateLongString(str string) string {

@@ -50,7 +50,7 @@ func ParseArgs(args []string) (*Command, error) {
 		return nil, fmt.Errorf("in ParseArgs(): %w", err)
 	}
 
-	countFirstFlags := calcCountTrueFlags(argsCommand.CFlag, argsCommand.DFlag, argsCommand.UFlag)
+	countFirstFlags := CalcCountTrueFlags(argsCommand.CFlag, argsCommand.DFlag, argsCommand.UFlag)
 	if countFirstFlags > 1 {
 		return nil, fmt.Errorf("in ParseArgs(): you can`t use c, d, u flags together. %w", ErrHelp)
 	}
