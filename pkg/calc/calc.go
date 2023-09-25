@@ -126,6 +126,10 @@ func Calc(input string, splitFunc bufio.SplitFunc, isNumber IsNumber, isOperatio
 				return 0, fmt.Errorf("in Calc(): unexpected '('. Error is: %w", ErrParenthesis)
 			}
 
+			if stackTokens.Len() < countOperandsForOperator {
+				return 0, fmt.Errorf("in Calc(): get not enough operands for operator. Error is: %w", ErrWrongInput)
+			}
+
 			num1 := stackTokens.Top()
 			stackTokens.Pop()
 
@@ -143,6 +147,7 @@ func Calc(input string, splitFunc bufio.SplitFunc, isNumber IsNumber, isOperatio
 				if num1 == 0 {
 					return 0, fmt.Errorf("in Calc(): Error is: %w", ErrDivisionZero)
 				}
+
 				stackTokens.Push(num2 / num1)
 			}
 		}

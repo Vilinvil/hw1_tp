@@ -70,7 +70,7 @@ func TestCalcErrors(t *testing.T) {
 		{
 			name:        "test empty input",
 			input:       "",
-			expectedErr: "in Calc(): Error is: in convertPrn(): get incorrect input without tokens",
+			expectedErr: "in Calc(): Error is: in convertPrn(): get incorrect input",
 		},
 		{
 			name:        "test input with uncorrected rune",
@@ -102,6 +102,11 @@ func TestCalcErrors(t *testing.T) {
 			input: "(2 + 10 * 0))",
 			expectedErr: "in Calc(): Error is: in converToPRN():" +
 				" Error is: in handleClosingParenthesis(): Error is: error with parenthesis",
+		},
+		{
+			name:        "test input with not enough operands for operator",
+			input:       " -2 ",
+			expectedErr: "in Calc(): get not enough operands for operator. Error is: get incorrect input",
 		},
 	}
 

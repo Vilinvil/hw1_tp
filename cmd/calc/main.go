@@ -1,14 +1,26 @@
 package main
 
 import (
-	"fmt"
 	"hw1_tp/pkg/calc"
+	"log"
+	"os"
 
 	_ "hw1_tp/pkg/calc"
 )
 
-func main() {
-	input := "233 * 344 / (5 * 666) - 10 "
+const correctCountArgs = 2
 
-	fmt.Println(calc.Calc(input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperations, calc.GetMapPriority()))
+func main() {
+	if len(os.Args) != correctCountArgs {
+		log.Fatalf("unexpected count arguments %v", len(os.Args))
+	}
+
+	input := os.Args[1]
+
+	result, err := calc.Calc(input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperations, calc.GetMapPriority())
+	if err != nil {
+		log.Fatalf("in main(): Error is: %v", err)
+	}
+
+	log.Println(result)
 }
