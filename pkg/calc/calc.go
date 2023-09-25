@@ -72,6 +72,10 @@ func convertToRPN(tokens []string, isNumber IsNumber, isOperations IsOperations,
 
 	var result []string
 
+	if len(tokens) == 0 {
+		return nil, fmt.Errorf("in convertPrn(): %w", ErrWrongInput)
+	}
+
 	for _, token := range tokens {
 		switch {
 		case isNumber(token):
@@ -118,6 +122,10 @@ func Calc(input string, splitFunc bufio.SplitFunc, isNumber IsNumber, isOperatio
 
 			stackTokens.Push(num)
 		case isOperations(token):
+			if token == "(" {
+				return 0, fmt.Errorf("in Calc(): unexpected '('. Error is: %w", ErrParenthesis)
+			}
+
 			num1 := stackTokens.Top()
 			stackTokens.Pop()
 
@@ -132,6 +140,9 @@ func Calc(input string, splitFunc bufio.SplitFunc, isNumber IsNumber, isOperatio
 			case "*":
 				stackTokens.Push(num1 * num2)
 			case "/":
+				if num1 == 0 {
+					return 0, fmt.Errorf("in Calc(): Error is: %w", ErrDivisionZero)
+				}
 				stackTokens.Push(num2 / num1)
 			}
 		}

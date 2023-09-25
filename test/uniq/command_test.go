@@ -29,7 +29,8 @@ func TestUniqCommandSuccessful(t *testing.T) {
 	}
 
 	testCases := [...]TestCase{
-		{name: "Test default command without arguments",
+		{
+			name: "Test default command without arguments",
 			input: `I love music.
 I love music.
 I love music.
@@ -50,18 +51,21 @@ I love music of Kartik.
 `,
 			args: uniq.ArgsCommand{}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test default command with empty input",
+		{
+			name:     "Test default command with empty input",
 			input:    ``,
 			expected: ``,
 			args:     uniq.ArgsCommand{}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test default command with a lot of line in input",
+		{
+			name:  "Test default command with a lot of line in input",
 			input: generateLongString("test line"),
 			expected: `test line
 `,
 			args: uniq.ArgsCommand{}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test -c command",
+		{
+			name: "Test -c command",
 			input: `I love music.
 I love music.
 I love music.
@@ -83,7 +87,8 @@ I love music of Kartik.`,
 `,
 			args: uniq.ArgsCommand{CFlag: true}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test -d command",
+		{
+			name: "Test -d command",
 			input: `I love music.
 I love go gym
 
@@ -102,7 +107,8 @@ I love go gym
 `,
 			args: uniq.ArgsCommand{DFlag: true}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test -u command",
+		{
+			name: "Test -u command",
 			input: `I love music.
 I love go gym
 
@@ -123,7 +129,8 @@ I love music.
 `,
 			args: uniq.ArgsCommand{UFlag: true}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test -i command",
+		{
+			name: "Test -i command",
 			input: `I lOVe music.
 I love go gym
 
@@ -147,7 +154,8 @@ I love go GYM
 `,
 			args: uniq.ArgsCommand{IFlag: true}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test -f command",
+		{
+			name: "Test -f command",
 			input: `I lOVe music.
 I like music.
 
@@ -168,7 +176,8 @@ We love go gym
 `,
 			args: uniq.ArgsCommand{FFlag: 2}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test -s command",
+		{
+			name: "Test -s command",
 			input: `I lOVe music.
 I like music.
 
@@ -187,7 +196,8 @@ People love go gym
 `,
 			args: uniq.ArgsCommand{SFlag: 2}, //nolint:exhaustruct,exhaustivestruct
 		},
-		{name: "Test command with all args together based on -c",
+		{
+			name: "Test command with all args together based on -c",
 			input: `I lOVe music.
 I like MUSIC.
 

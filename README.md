@@ -254,12 +254,6 @@ Thanks.
 
 </details>
 
-### Тестирование
-
-`mkdir bin -p &&
-go test -v -coverpkg=./pkg/uniq/ -coverprofile=bin/cover.out ./test/uniq && 
-go tool cover -html=bin/cover.out -o=bin/cover.html`
-
 
 ## Часть 2. Calc
 
@@ -278,3 +272,9 @@ go tool cover -html=bin/cover.out -o=bin/cover.html`
     $ go run calc.go "(1+2)*3"
     9
 ```
+### Тестирование
+
+`mkdir bin -p && go test -v -coverpkg=./pkg/uniq/,./pkg/calc/  -coverprofile=bin/cover.out ./test/calc ./test/uniq/  &&  go tool cover -html=bin/cover.out -o=bin/cover.html`
+
+
+![coverage.png](coverage.png)
