@@ -2,18 +2,13 @@ package main
 
 import (
 	"fmt"
+	"hw1_tp/pkg/calc"
 
 	_ "hw1_tp/pkg/calc"
-	"hw1_tp/pkg/stack"
 )
 
 func main() {
-	st := stack.Stack[string]{}
-	fmt.Println(st)
-	st.Push("asfd")
-	st.Push("asfd")
-	st.Push("asfd")
-	st.Push("asfd")
-	st.Push("asfd")
-	fmt.Println(st)
+	input := "233 * 344 / (5 * 666) - 10 "
+
+	fmt.Println(calc.Calc(input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperations, calc.GetMapPriority()))
 }

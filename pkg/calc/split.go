@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func splitTokensInt(data []byte, atEOF bool) (advance int, token []byte, err error) {
+func SplitTokensInt(data []byte, atEOF bool) (advance int, token []byte, err error) { //nolint:nonamedreturns
 	if atEOF && len(data) == 0 {
 		return 0, nil, nil
 	}

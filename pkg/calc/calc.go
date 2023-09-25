@@ -3,16 +3,12 @@ package calc
 import (
 	"bufio"
 	"fmt"
+	"strconv"
+
 	"hw1_tp/pkg/stack"
 )
 
-func init() {
-	input := "233 * 344 / (5 * 666) + 10 "
-
-	fmt.Println(Calc(input, splitTokensInt, isInt, isBasicOperations, getMapPriority()))
-}
-
-func handleOperation(operation string, stackOperations *stack.Stack[string], mapPriority mapPriority) (preResult []string) {
+func handleOperation(operation string, stackOperations *stack.Stack[string], mapPriority MapPriority) []string {
 	if stackOperations.Len() == 0 || operation == "(" {
 		stackOperations.Push(operation)
 
@@ -22,6 +18,8 @@ func handleOperation(operation string, stackOperations *stack.Stack[string], map
 	stackToken := stackOperations.Top()
 	tokenPriority := mapPriority[operation]
 	stackTokenPriority := mapPriority[stackToken]
+
+	var preResult []string
 
 	for tokenPriority <= stackTokenPriority {
 		preResult = append(preResult, stackToken)
@@ -41,12 +39,14 @@ func handleOperation(operation string, stackOperations *stack.Stack[string], map
 	return preResult
 }
 
-func handleClosingParenthesis(stackOperations *stack.Stack[string]) (preResult []string, err error) {
+func handleClosingParenthesis(stackOperations *stack.Stack[string]) ([]string, error) {
 	if stackOperations.Len() == 0 {
 		return nil, fmt.Errorf("in handleClosingParenthesis(): Error is: %w", ErrParenthesis)
 	}
 
 	stackToken := stackOperations.Top()
+
+	var preResult []string
 
 	for ; ; stackToken = stackOperations.Top() {
 		if stackOperations.Len() == 0 {
@@ -65,8 +65,9 @@ func handleClosingParenthesis(stackOperations *stack.Stack[string]) (preResult [
 	return preResult, nil
 }
 
-func convertToRPN(tokens []string, isNumber isNumber, isOperations isOperations,
-	mapPriority mapPriority) ([]string, error) {
+func convertToRPN(tokens []string, isNumber IsNumber, isOperations IsOperations,
+	mapPriority MapPriority) ([]string, error,
+) {
 	var stackOperations stack.Stack[string]
 
 	var result []string
@@ -97,23 +98,22 @@ func convertToRPN(tokens []string, isNumber isNumber, isOperations isOperations,
 	return result, nil
 }
 
-func Calc(input string, splitFunc bufio.SplitFunc, isNumber isNumber, isOperations isOperations,
-	mapPriority mapPriority) (result Number, err error) {
+func Calc(input string, splitFunc bufio.SplitFunc, isNumber IsNumber, isOperations IsOperations,
+	mapPriority MapPriority,
+) (float64, error) {
 	prnSl, err := convertToRPN(splitIntoTokens(input, splitFunc), isNumber, isOperations, mapPriority)
 	if err != nil {
-		return nil, fmt.Errorf("in Calc(): Error is: %w", err)
+		return 0, fmt.Errorf("in Calc(): Error is: %w", err)
 	}
 
-	stackTokens := stack.Stack[Number]{}
+	stackTokens := stack.Stack[float64]{}
 
 	for _, token := range prnSl {
 		switch {
 		case isNumber(token):
-			var num Number
-
-			num, err := Number.FromString(num, token)
+			num, err := strconv.ParseFloat(token, 64)
 			if err != nil {
-				return nil, fmt.Errorf("in Calc(): Error is: %w", err)
+				return 0, fmt.Errorf("in Calc(): Error is: %w", err)
 			}
 
 			stackTokens.Push(num)
@@ -126,13 +126,13 @@ func Calc(input string, splitFunc bufio.SplitFunc, isNumber isNumber, isOperatio
 
 			switch token {
 			case "+":
-				stackTokens.Push(num1.Sum(num2))
+				stackTokens.Push(num1 + num2)
 			case "-":
-				stackTokens.Push(num1.Sub(num2))
+				stackTokens.Push(num2 - num1)
 			case "*":
-				stackTokens.Push(num1.Mul(num2))
+				stackTokens.Push(num1 * num2)
 			case "/":
-				stackTokens.Push(num1.Div(num2))
+				stackTokens.Push(num2 / num1)
 			}
 		}
 	}

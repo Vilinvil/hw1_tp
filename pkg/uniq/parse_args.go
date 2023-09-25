@@ -25,7 +25,7 @@ func parseFilesArgs(argsFiles []string) (io.ReadCloser, io.WriteCloser, error) {
 
 	var writeCloser io.WriteCloser
 	if countArgs == int(outputFileExist) {
-		writeCloser, err = os.OpenFile(argsFiles[1], os.O_WRONLY|os.O_CREATE, 0666)
+		writeCloser, err = os.OpenFile(argsFiles[1], os.O_WRONLY|os.O_CREATE, readeWriteEnable) //nolint:nosnakecase
 		if err != nil {
 			return nil, nil, fmt.Errorf("in parseFilesArgs(): Error is: %w", err)
 		}
