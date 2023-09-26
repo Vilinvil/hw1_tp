@@ -1,8 +1,6 @@
-package uniq
+package uniq_test
 
-import (
-	"bytes"
-)
+import "bytes"
 
 type nopCloseBuffer struct {
 	bytes.Buffer

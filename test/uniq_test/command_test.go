@@ -1,4 +1,4 @@
-package uniq
+package uniq_test
 
 import (
 	"bytes"
@@ -220,7 +220,6 @@ People love go gym`,
 
 		t.Run(testCase.name, func(t *testing.T) {
 			t.Parallel()
-
 			testCase.args.ReadCloser = io.NopCloser(strings.NewReader(testCase.input))
 			writerBuf := &nopCloseBuffer{*bytes.NewBufferString("")}
 			testCase.args.WriteCloser = writerBuf

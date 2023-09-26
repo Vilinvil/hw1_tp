@@ -269,7 +269,7 @@ Thanks.
 ```
 ### Тестирование
 
-`mkdir bin -p && go test -v -coverpkg=./pkg/uniq/,./pkg/calc/  -coverprofile=bin/cover.out ./test/calc ./test/uniq/  &&  go tool cover -html=bin/cover.out -o=bin/cover.html`
+`mkdir -p bin && go test -v -coverpkg=./pkg/uniq/,./pkg/calc/  -coverprofile=bin/cover.out ./test/calc_test  ./test/uniq_test  &&  go tool cover -html=bin/cover.out -o=bin/cover.html`
 
 
 ![coverage.png](coverage.png)

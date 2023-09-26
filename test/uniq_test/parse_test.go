@@ -1,4 +1,4 @@
-package uniq
+package uniq_test
 
 import (
 	"os"

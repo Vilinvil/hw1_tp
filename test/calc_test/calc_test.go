@@ -1,4 +1,4 @@
-package calc
+package calc_test
 
 import (
 	"testing"
@@ -57,6 +57,7 @@ func TestCalcSuccessful(t *testing.T) {
 	}
 }
 
+//nolint:funlen
 func TestCalcErrors(t *testing.T) {
 	t.Parallel()
 
