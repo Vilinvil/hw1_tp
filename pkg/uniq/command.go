@@ -33,7 +33,7 @@ func NewCommand(args *ArgsCommand) *Command {
 	command.initComparator()
 	command.Args = args
 
-	return &command //nolint:exhaustivestruct,exhaustruct
+	return &command
 }
 
 func (c *Command) Close() error {
@@ -191,7 +191,7 @@ func (c *Command) Run() error {
 		defer func(c *Command) {
 			err := c.handleLastLine(endHandler)
 			if err != nil {
-				log.Printf("in Run() defer: Error is: %v", err)
+				log.Printf("in Run() defer: %v", err)
 			}
 		}(c)
 	}
@@ -199,7 +199,7 @@ func (c *Command) Run() error {
 	for scanner.Scan() {
 		err := endHandler(scanner.Text())
 		if err != nil {
-			return fmt.Errorf("in Run(): Error is: %w", err)
+			return fmt.Errorf("in Run(): %w", err)
 		}
 	}
 

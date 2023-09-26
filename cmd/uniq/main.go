@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"os"
 
@@ -11,18 +10,18 @@ import (
 func main() {
 	uniqCommand, err := uniq.ParseArgs(os.Args[1:])
 	if err != nil {
-		log.Fatal(fmt.Errorf("error in main(): %w", err))
+		log.Fatalf("error in main(): %v", err)
 	}
 
 	defer func() {
 		err = uniqCommand.Close()
 		if err != nil {
-			log.Println(fmt.Errorf("error in main(): %w", err))
+			log.Printf("error in main(): %v\n", err)
 		}
 	}()
 
 	err = uniqCommand.Run()
 	if err != nil {
-		log.Println(fmt.Errorf("error in main(): %w", err))
+		log.Printf("error in main(): %v", err)
 	}
 }

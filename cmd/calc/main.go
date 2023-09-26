@@ -12,15 +12,15 @@ const correctCountArgs = 2
 
 func main() {
 	if len(os.Args) != correctCountArgs {
-		log.Fatalf("unexpected count arguments %v", len(os.Args))
+		log.Fatalf("in main(): unexpected count arguments %v", len(os.Args))
 	}
 
 	input := os.Args[1]
 
-	result, err := calc.Calc(input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperations, calc.GetMapPriority())
+	result, err := calc.Calc(input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperator, calc.GetMapPriority())
 	if err != nil {
 		log.Fatalf("in main(): Error is: %v", err)
 	}
 
-	log.Println(result)
+	log.Println("Result:", result)
 }

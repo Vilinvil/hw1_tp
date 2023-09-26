@@ -1,10 +1,10 @@
 package calc
 
 const (
-	operations = "+-/*("
+	operators  = "+-*/"
+	operations = operators + "("
 	separators = operations + ")"
 
-	// use -1 because ")" handle separately
 	countOperations = len(operations)
 
 	countOperandsForOperator = 2

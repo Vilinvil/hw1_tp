@@ -6,7 +6,7 @@ import (
 
 type IsNumber func(token string) bool
 
-type IsOperations func(token string) bool
+type IsOperator func(token string) bool
 
 type MapPriority map[string]int8
 
@@ -16,8 +16,8 @@ func IsInt(token string) bool {
 	return err == nil
 }
 
-func IsBasicOperations(token string) bool {
-	for _, operation := range operations {
+func IsBasicOperator(token string) bool {
+	for _, operation := range operators {
 		if string(operation) == token {
 			return true
 		}
