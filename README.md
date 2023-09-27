@@ -272,5 +272,7 @@ Thanks.
 `mkdir -p bin && go test -v  -coverprofile=bin/cover.out ./pkg/... && go tool cover -html=bin/cover.out -o=bin/cover.html
 `
 
+### Покрытие 
+![coverage_uniq.png](.photos%2Fcoverage_uniq.png)
 
-![coverage.png](coverage.png)
+![coverage_calc.png](.photos%2Fcoverage_calc.png)
