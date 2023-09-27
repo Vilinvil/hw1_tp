@@ -61,7 +61,7 @@ I love music of Kartik.
 Thanks.
 I love music of Kartik.
 I love music of Kartik.
-$cat input.txt | go run uniq.go
+$cat input.txt | go run cmd/uniq/main.go
 I love music.
 
 I love music of Kartik.
@@ -85,7 +85,7 @@ I love music of Kartik.
 Thanks.
 I love music of Kartik.
 I love music of Kartik.
-$go run uniq.go input.txt
+$go run cmd/uniq/main.go input.txt
 I love music.
 
 I love music of Kartik.
@@ -109,7 +109,7 @@ I love music of Kartik.
 Thanks.
 I love music of Kartik.
 I love music of Kartik.
-$go run uniq.go input.txt output.txt
+$go run cmd/uniq/main.go input.txt output.txt
 $cat output.txt
 I love music.
 
@@ -134,7 +134,7 @@ I love music of Kartik.
 Thanks.
 I love music of Kartik.
 I love music of Kartik.
-$cat input.txt | go run uniq.go -c
+$cat input.txt | go run cmd/uniq/main.go -c
 3 I love music.
 1 
 2 I love music of Kartik.
@@ -158,7 +158,7 @@ I love music of Kartik.
 Thanks.
 I love music of Kartik.
 I love music of Kartik.
-$cat input.txt | go run uniq.go -d
+$cat input.txt | go run cmd/uniq/main.go -d
 I love music.
 I love music of Kartik.
 I love music of Kartik.
@@ -180,7 +180,7 @@ I love music of Kartik.
 Thanks.
 I love music of Kartik.
 I love music of Kartik.
-$cat input.txt | go run uniq.go -u
+$cat input.txt | go run cmd/uniq/main.go -u
 
 Thanks.
 ```
@@ -201,7 +201,7 @@ I love music of kartik.
 Thanks.
 I love music of kartik.
 I love MuSIC of Kartik.
-$cat input.txt | go run uniq.go -i
+$cat input.txt | go run cmd/uniq/main.go -i
 I LOVE MUSIC.
 
 I love MuSIC of Kartik.
@@ -223,7 +223,7 @@ They love music.
 I love music of Kartik.
 We love music of Kartik.
 Thanks.
-$cat input.txt | go run uniq.go -f 1
+$cat input.txt | go run cmd/uniq/main.go -f 1
 We love music.
 
 I love music of Kartik.
@@ -244,7 +244,7 @@ C love music.
 I love music of Kartik.
 We love music of Kartik.
 Thanks.
-$cat input.txt | go run uniq.go -s 1
+$cat input.txt | go run cmd/uniq/main.go -s 1
 I love music.
 
 I love music of Kartik.
