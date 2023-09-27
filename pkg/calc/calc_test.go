@@ -1,10 +1,17 @@
 package calc_test
 
 import (
+	"math"
 	"testing"
 
 	"hw1_tp/pkg/calc"
 )
+
+const tolerance = 1e-8
+
+func equalFloat(num1, num2 float64) bool {
+	return math.Abs(num1-num2) < tolerance
+}
 
 func TestCalcSuccessful(t *testing.T) {
 	t.Parallel()

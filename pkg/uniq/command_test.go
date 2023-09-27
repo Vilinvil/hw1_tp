@@ -17,6 +17,14 @@ func generateLongString(str string) string {
 	return str
 }
 
+type nopCloseBuffer struct {
+	bytes.Buffer
+}
+
+func (nopCloseBuffer) Close() error {
+	return nil
+}
+
 //nolint:funlen
 func TestUniqCommandSuccessful(t *testing.T) {
 	t.Parallel()
