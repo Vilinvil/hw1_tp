@@ -4,18 +4,18 @@ type Stack[T any] struct {
 	buf []T
 }
 
-func (s *Stack[any]) Push(el any) {
+func (s *Stack[T]) Push(el T) {
 	s.buf = append(s.buf, el)
 }
 
-func (s *Stack[any]) Pop() {
+func (s *Stack[T]) Pop() {
 	s.buf = s.buf[:len(s.buf)-1]
 }
 
-func (s *Stack[any]) Top() any {
+func (s *Stack[T]) Top() T {
 	return s.buf[len(s.buf)-1]
 }
 
-func (s *Stack[any]) Len() int {
+func (s *Stack[T]) Len() int {
 	return len(s.buf)
 }
