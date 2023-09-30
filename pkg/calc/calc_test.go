@@ -43,6 +43,16 @@ func TestCalcSuccessful(t *testing.T) {
 			input:         "(233 * 344 / (5 * 666) - 10) * 0",
 			expectedValue: 0,
 		},
+		{
+			name:          "test expression with float",
+			input:         "2.9 * 2 - 45/2",
+			expectedValue: -16.7,
+		},
+		{
+			name:          "test expression with unary minus",
+			input:         "-1*( - 2.9 * 2 - (-45)/2)",
+			expectedValue: -16.7,
+		},
 	}
 
 	for _, testCase := range testCases {
@@ -51,7 +61,7 @@ func TestCalcSuccessful(t *testing.T) {
 		t.Run(testCase.name, func(t *testing.T) {
 			t.Parallel()
 
-			received, err := calc.Calc(testCase.input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperator,
+			received, err := calc.Calc(testCase.input, calc.SplitTokensInt, calc.IsFloat, calc.IsBasicOperator,
 				calc.GetMapPriority())
 			if err != nil {
 				t.Errorf("in calc.Calc(): unexpexted ERROR: %v", err)
@@ -78,43 +88,37 @@ func TestCalcErrors(t *testing.T) {
 		{
 			name:        "test empty input",
 			input:       "",
-			expectedErr: "in Calc(): in convertPrn(): Error is: get incorrect input",
+			expectedErr: "get incorrect input",
 		},
 		{
 			name:        "test input with uncorrected rune",
 			input:       "2  + 10 + f",
-			expectedErr: "in Calc(): in convertToPRN(): Error is: get not supported input. Token is: f",
+			expectedErr: "token is: f. get not supported input for help use -h or --help",
 		},
 		{
 			name:        "test input with unsupported operations",
 			input:       "2 + 10 - 2^3",
-			expectedErr: "in Calc(): in convertToPRN(): Error is: get not supported input. Token is: 2^3",
-		},
-		{
-			name:        "test input with float numbers",
-			input:       "2 + 10 - 2.88",
-			expectedErr: "in Calc(): in convertToPRN(): Error is: get not supported input. Token is: 2.88",
+			expectedErr: "token is: 2^3. get not supported input for help use -h or --help",
 		},
 		{
 			name:        "test input division on zero",
 			input:       "2 + 10 / 0",
-			expectedErr: "in Calc(): in handleToken(): in handleOperator(): Error is: can`t division on zero",
+			expectedErr: "can`t division on zero",
 		},
 		{
 			name:        "test input with unclosed parenthesis",
 			input:       "(2 + 10 * 0",
-			expectedErr: "in Calc(): in handleToken(): unexpected token. Token is: (. Error is: get incorrect input",
+			expectedErr: "token is: (. Error is: get incorrect input",
+		},
+		{
+			name:        "test input with unopened parenthesis",
+			input:       "2 + 10)",
+			expectedErr: "error with parenthesis",
 		},
 		{
 			name:        "test input with parenthesis closing more than open parenthesis",
 			input:       "(2 + 10 * 0))",
-			expectedErr: "in Calc(): in convertToPRN(): in handleClosingParenthesisPRN(): Error is: error with parenthesis",
-		},
-		{
-			name:  "test input with not enough operands for operator",
-			input: " -2 ",
-			expectedErr: "in Calc(): in handleToken():" +
-				" in handleOperator(): get not enough operands for operator. Error is: get incorrect input",
+			expectedErr: "error with parenthesis",
 		},
 	}
 
@@ -124,7 +128,7 @@ func TestCalcErrors(t *testing.T) {
 		t.Run(testCase.name, func(t *testing.T) {
 			t.Parallel()
 
-			_, err := calc.Calc(testCase.input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperator,
+			_, err := calc.Calc(testCase.input, calc.SplitTokensInt, calc.IsFloat, calc.IsBasicOperator,
 				calc.GetMapPriority())
 			if err == nil {
 				t.Errorf("in calc.Calc() not RETURN ERR\n But EXPECTED: %v", testCase.expectedErr)

@@ -80,31 +80,29 @@ func TestParseArgsErrors(t *testing.T) {
 
 	testCases := [...]TestCase{
 		{
-			name:  "test parse with unnecessary args of files ",
-			input: "input.file output.file unnecessary.file",
-			expectedErr: "in ParseArgs(): Error is: in parseFilesArgs():" +
-				" Too much arguments countArgs == 3. for help use argument -h or --help",
+			name:        "test parse with unnecessary args of files ",
+			input:       "input.file output.file unnecessary.file",
+			expectedErr: "count args = 3. too much files arguments. For help use argument -h or --help",
 		},
 		{
-			name:  "test parse not existing input file",
-			input: "not_exist.file",
-			expectedErr: "in ParseArgs(): Error is: in parseFilesArgs():" +
-				" Error is: open not_exist.file: no such file or directory",
+			name:        "test parse not existing input file",
+			input:       "not_exist.file",
+			expectedErr: "open not_exist.file: no such file or directory",
 		},
 		{
 			name:        "test parse with uncorrected flags",
 			input:       "--uncorrected",
-			expectedErr: "in ParseArgs(): flag provided but not defined: -uncorrected",
+			expectedErr: "flag provided but not defined: -uncorrected",
 		},
 		{
 			name:        "test parse with CFlag and DFlag together ",
 			input:       "-c -d",
-			expectedErr: "in ParseArgs(): you can`t use c, d, u flags together. for help use argument -h or --help",
+			expectedErr: "you can`t use c, d, u flags together. For help use argument -h or --help",
 		},
 		{
 			name:        "test parse with UFlag and DFlag together ",
 			input:       "-u -d",
-			expectedErr: "in ParseArgs(): you can`t use c, d, u flags together. for help use argument -h or --help",
+			expectedErr: "you can`t use c, d, u flags together. For help use argument -h or --help",
 		},
 	}
 

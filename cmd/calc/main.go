@@ -1,26 +1,22 @@
 package main
 
 import (
-	"hw1_tp/pkg/calc"
+	"fmt"
 	"log"
 	"os"
 
-	_ "hw1_tp/pkg/calc"
+	"hw1_tp/pkg/calc"
 )
 
-const correctCountArgs = 2
-
 func main() {
-	if len(os.Args) != correctCountArgs {
-		log.Fatalf("in main(): unexpected count arguments %v", len(os.Args))
-	}
+	defer func() {
+		result, err := calc.Run(os.Args)
+		if err != nil {
+			fmt.Printf("%v\n", err)
+			os.Exit(1)
+		}
 
-	input := os.Args[1]
+		log.Println("Result:", result)
+	}()
 
-	result, err := calc.Calc(input, calc.SplitTokensInt, calc.IsInt, calc.IsBasicOperator, calc.GetMapPriority())
-	if err != nil {
-		log.Fatalf("in main(): Error is: %v", err)
-	}
-
-	log.Println("Result:", result)
 }

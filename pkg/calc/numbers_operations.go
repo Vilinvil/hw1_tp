@@ -10,8 +10,8 @@ type IsOperator func(token string) bool
 
 type MapPriority map[string]int8
 
-func IsInt(token string) bool {
-	_, err := strconv.Atoi(token)
+func IsFloat(token string) bool {
+	_, err := strconv.ParseFloat(token, 64)
 
 	return err == nil
 }

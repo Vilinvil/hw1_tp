@@ -10,7 +10,7 @@ import (
 func parseFilesArgs(argsFiles []string) (io.ReadCloser, io.WriteCloser, error) {
 	countArgs := len(argsFiles)
 	if countArgs > int(outputFileExist) {
-		return nil, nil, fmt.Errorf("in parseFilesArgs(): Too much arguments countArgs == %d. %w", countArgs, ErrHelp)
+		return nil, nil, fmt.Errorf(errTemplate, NewError("count args = %d. %s", countArgs, ErrTooMuchFilesArgs.Error()))
 	}
 
 	var err error
@@ -19,7 +19,7 @@ func parseFilesArgs(argsFiles []string) (io.ReadCloser, io.WriteCloser, error) {
 	if countArgs >= int(inputFileExist) {
 		readCloser, err = os.Open(argsFiles[0])
 		if err != nil {
-			return nil, nil, fmt.Errorf("in parseFilesArgs(): Error is: %w", err)
+			return nil, nil, fmt.Errorf(errTemplate, err)
 		}
 	}
 
@@ -27,7 +27,7 @@ func parseFilesArgs(argsFiles []string) (io.ReadCloser, io.WriteCloser, error) {
 	if countArgs == int(outputFileExist) {
 		writeCloser, err = os.OpenFile(argsFiles[1], os.O_WRONLY|os.O_CREATE, readeWriteEnable) //nolint:nosnakecase
 		if err != nil {
-			return nil, nil, fmt.Errorf("in parseFilesArgs(): Error is: %w", err)
+			return nil, nil, fmt.Errorf(errTemplate, err)
 		}
 	}
 
@@ -47,12 +47,12 @@ func ParseArgs(args []string) (*Command, error) {
 	flagSet.UintVar(&argsCommand.SFlag, "s", 0, "not compare first `chars` rune in every line")
 
 	if err := flagSet.Parse(args); err != nil {
-		return nil, fmt.Errorf("in ParseArgs(): %w", err)
+		return nil, fmt.Errorf(errTemplate, err)
 	}
 
 	countFirstFlags := CalcCountTrueFlags(argsCommand.CFlag, argsCommand.DFlag, argsCommand.UFlag)
 	if countFirstFlags > 1 {
-		return nil, fmt.Errorf("in ParseArgs(): you can`t use c, d, u flags together. %w", ErrHelp)
+		return nil, fmt.Errorf(errTemplate, ErrTogetherFlagsCDU)
 	}
 
 	argsFiles := flagSet.Args()
@@ -61,7 +61,7 @@ func ParseArgs(args []string) (*Command, error) {
 
 	argsCommand.ReadCloser, argsCommand.WriteCloser, err = parseFilesArgs(argsFiles)
 	if err != nil {
-		return nil, fmt.Errorf("in ParseArgs(): Error is: %w", err)
+		return nil, fmt.Errorf(errTemplate, err)
 	}
 
 	return NewCommand(&argsCommand), nil

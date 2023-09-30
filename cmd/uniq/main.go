@@ -1,27 +1,18 @@
 package main
 
 import (
-	"log"
+	"fmt"
 	"os"
 
 	"hw1_tp/pkg/uniq"
 )
 
 func main() {
-	uniqCommand, err := uniq.ParseArgs(os.Args[1:])
-	if err != nil {
-		log.Fatalf("error in main(): %v", err)
-	}
-
 	defer func() {
-		err = uniqCommand.Close()
+		err := uniq.Run(os.Args[1:])
 		if err != nil {
-			log.Printf("error in main(): %v\n", err)
+			fmt.Printf("%v\n", err)
+			os.Exit(1)
 		}
 	}()
-
-	err = uniqCommand.Run()
-	if err != nil {
-		log.Printf("error in main(): %v", err)
-	}
 }

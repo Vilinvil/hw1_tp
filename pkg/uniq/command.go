@@ -3,7 +3,6 @@ package uniq
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -39,12 +38,12 @@ func NewCommand(args *ArgsCommand) *Command {
 func (c *Command) Close() error {
 	err := c.Args.ReadCloser.Close()
 	if err != nil {
-		return fmt.Errorf("in Close(): Error is: %w", err)
+		return fmt.Errorf(errTemplate, err)
 	}
 
 	err = c.Args.WriteCloser.Close()
 	if err != nil {
-		return fmt.Errorf("in Close(): Error is: %w", err)
+		return fmt.Errorf(errTemplate, err)
 	}
 
 	return nil
@@ -95,7 +94,7 @@ func (c *Command) defaultHandleLine(curLine string) error {
 	if !c.compStr(c.prevLine, curLine) {
 		_, err := c.writeln([]byte(c.prevLine))
 		if err != nil {
-			return fmt.Errorf("in defaultHandleLine(): Error is: %w", err)
+			return fmt.Errorf(errTemplate, err)
 		}
 
 		c.prevLine = curLine
@@ -113,7 +112,7 @@ func (c *Command) calcHandleLine(curLine string) error {
 
 	_, err := c.writeln([]byte(strconv.Itoa(c.duplicationCounter) + " " + c.prevLine))
 	if err != nil {
-		return fmt.Errorf("in calcHandlerLine(): Error is: %w", err)
+		return fmt.Errorf(errTemplate, err)
 	}
 
 	c.prevLine = curLine
@@ -132,7 +131,7 @@ func (c *Command) uniqHandleLine(curLine string) error {
 	if c.uniqPrev {
 		_, err := c.writeln([]byte(c.prevLine))
 		if err != nil {
-			return fmt.Errorf("in calcHandlerLine(): Error is: %w", err)
+			return fmt.Errorf(errTemplate, err)
 		}
 	}
 
@@ -152,7 +151,7 @@ func (c *Command) duplicateHandleLine(curLine string) error {
 	if !c.uniqPrev {
 		_, err := c.writeln([]byte(c.prevLine))
 		if err != nil {
-			return fmt.Errorf("in calcHandlerLine(): Error is: %w", err)
+			return fmt.Errorf(errTemplate, err)
 		}
 	}
 
@@ -191,7 +190,7 @@ func (c *Command) Run() error {
 		defer func(c *Command) {
 			err := c.handleLastLine(endHandler)
 			if err != nil {
-				log.Printf("in Run() defer: %v", err)
+				fmt.Printf("in c.Run() defer:\n %v", err)
 			}
 		}(c)
 	}
@@ -199,7 +198,7 @@ func (c *Command) Run() error {
 	for scanner.Scan() {
 		err := endHandler(scanner.Text())
 		if err != nil {
-			return fmt.Errorf("in Run(): %w", err)
+			return fmt.Errorf(errTemplate, err)
 		}
 	}
 
