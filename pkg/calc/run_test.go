@@ -9,7 +9,7 @@ import (
 func TestRunSuccessful(t *testing.T) {
 	t.Parallel()
 
-	args := []string{"main", "3 - 3 + 0"}
+	args := []string{"3 - 3 + 0"}
 
 	received, err := calc.Run(args)
 	if err != nil {
@@ -33,17 +33,17 @@ func TestRunErrors(t *testing.T) {
 	testCases := [...]TestCase{
 		{
 			name:        "test empty input",
-			input:       []string{"main", ""},
+			input:       []string{""},
 			expectedErr: "get incorrect input",
 		},
 		{
 			name:        "test a lot of args",
-			input:       []string{"main", "", ""},
-			expectedErr: "unexpected count arguments for help use -h or --help",
+			input:       []string{"", ""},
+			expectedErr: "count args == 2. unexpected count arguments for help use -h or --help",
 		},
 		{
 			name:  "test help",
-			input: []string{"main", "-h"},
+			input: []string{"-h"},
 			expectedErr: `calc "your expression" 
 
 This command supports operators: * / + - unary - ( ) 

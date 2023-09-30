@@ -15,12 +15,6 @@ func convertToBinaryMinus(input []string) []string {
 	return result
 }
 
-//func insertInMid(original []string, mid []string, idxMid) []string {
-//	var result []string
-//
-//	result = append
-//}
-
 func handleUnaryMinus(input []string) []string {
 	var result []string
 

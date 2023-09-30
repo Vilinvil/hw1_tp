@@ -3,7 +3,7 @@ package calc
 const (
 	startInsteadUnaryMinus = "(0"
 
-	correctCountArgs = 2
+	correctCountArgs = 1
 
 	operators  = "+-*/"
 	operations = operators + "("

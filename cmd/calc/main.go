@@ -10,7 +10,7 @@ import (
 
 func main() {
 	defer func() {
-		result, err := calc.Run(os.Args)
+		result, err := calc.Run(os.Args[1:])
 		if err != nil {
 			fmt.Printf("%v\n", err)
 			os.Exit(1)
@@ -18,5 +18,4 @@ func main() {
 
 		log.Println("Result:", result)
 	}()
-
 }
